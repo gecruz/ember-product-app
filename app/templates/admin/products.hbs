@@ -1,0 +1,79 @@
+<!-- /app/templates/admin/products.hbs -->
+{{#if newProduct.isError}}
+  Error!!
+  {{#each newProduct.errors as |error|}}
+    {{error}}
+  {{/each}}
+{{/if}}
+<h1>Admin - Products</h1>
+  <div class="well well-sm">
+    <form class="form-inline" {{action 'addNewProduct' newProduct on='submit'}}>
+      <div class="form-group">
+        <label for="product-name">Product name:</label>
+        {{input type="text" class="form-control" id="product-name" placeholder="Product name" value=newProduct.name}}
+      </div>
+      <div class="form-group">
+        <label for="product-sku">SKU:</label>
+        {{input type="text" class="form-control" id="product-sku" placeholder="SKU" value=newProduct.sku}}
+      </div>
+      <div class="form-group">
+        <label for="product-unitPrice">Unit price:</label>
+        {{input type="number" class="form-control" id="product-unitPrice" placeholder="Unit price" value=newProduct.unitPrice}}
+      </div>
+      <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+  </div>
+
+<table class="table table-striped">
+  <caption>List of products</caption>
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Name</th>
+    <th>SKU</th>
+    <th>Unit Price</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  {{#each model as |product|}}
+    {{#unless product.isNew}}
+      <tr>
+        <td>{{product.id}}</td>
+        <td {{action 'editProduct' product}}>
+          {{#if product.isEditing}}
+            {{input value=product.name}}
+          {{else}}
+            {{product.name}}
+          {{/if}}
+        </td>
+        <td {{action 'editProduct' product}}>
+          {{#if product.isEditing}}
+            {{input value=product.sku}}
+          {{else}}
+            {{product.sku}}
+          {{/if}}
+        </td>
+        <td {{action 'editProduct' product}}>
+          {{#if product.isEditing}}
+            {{input type="number" value=product.unitPrice}}
+          {{else}}
+            {{product.unitPrice}}
+          {{/if}}
+        </td>
+        <td>
+          {{#if product.isEditing}}
+            <button class="btn btn-xs btn-success" {{action 'updateProduct' product 'Price'}}>Save</button>
+            <button class="btn btn-xs btn-info" {{action 'updateProduct' product 'Price'}}>Cancel</button>
+          {{else}}
+          <button class="btn btn-xs btn-danger" {{action 'deleteProduct' product}}>Del</button>
+          <button class="btn btn-xs btn-default" {{action 'editProduct' product}}>Edit</button>
+          {{/if}}
+        </td>
+      </tr>
+    {{/unless}}
+  {{/each}}
+  </tbody>
+</table>
+
+Number of products: {{model.length}}
