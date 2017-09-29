@@ -20,6 +20,16 @@
         <label for="product-unitPrice">Unit price:</label>
         {{input type="number" class="form-control" id="product-unitPrice" placeholder="Unit price" value=newProduct.unitPrice}}
       </div>
+      <div class="form-group">
+        <label for="category">Category:</label>
+        {{#x-select id="category" class="form-control" value=newProduct.category as |xs|}}
+          {{#each categories as |category|}}
+            {{#xs.option value=category}}
+              {{category.name}}
+            {{/xs.option}}
+          {{/each}}
+        {{/x-select}}
+      </div>
       <button type="submit" class="btn btn-primary">Add</button>
     </form>
   </div>
@@ -32,6 +42,7 @@
     <th>Name</th>
     <th>SKU</th>
     <th>Unit Price</th>
+    <th>Category</th>
     <th>Actions</th>
   </tr>
   </thead>
@@ -42,32 +53,45 @@
         <td>{{product.id}}</td>
         <td {{action 'editProduct' product}}>
           {{#if product.isEditing}}
-            {{input value=product.name}}
+            {{input class="form-control" value=product.name}}
           {{else}}
             {{product.name}}
           {{/if}}
         </td>
         <td {{action 'editProduct' product}}>
           {{#if product.isEditing}}
-            {{input value=product.sku}}
+            {{input class="form-control" value=product.sku}}
           {{else}}
             {{product.sku}}
           {{/if}}
         </td>
         <td {{action 'editProduct' product}}>
           {{#if product.isEditing}}
-            {{input type="number" value=product.unitPrice}}
+            {{input class="form-control" type="number" value=product.unitPrice}}
           {{else}}
             {{product.unitPrice}}
+          {{/if}}
+        </td>
+        <td {{action 'editProduct' product}}>
+          {{#if product.isEditing}}
+            {{#x-select value=product.category as |xs|}}
+              {{#each categories as |category|}}
+                {{#xs.option value=category}}
+                  {{category.name}}
+                {{/xs.option}}
+              {{/each}}
+            {{/x-select}}
+          {{else}}
+            {{product.category.name}}
           {{/if}}
         </td>
         <td>
           {{#if product.isEditing}}
             <button class="btn btn-xs btn-success" {{action 'updateProduct' product 'Price'}}>Save</button>
-            <button class="btn btn-xs btn-info" {{action 'updateProduct' product 'Price'}}>Cancel</button>
+            <button class="btn btn-xs btn-info" {{action 'cancelEditProduct' product}}>Cancel</button>
           {{else}}
-          <button class="btn btn-xs btn-danger" {{action 'deleteProduct' product}}>Del</button>
-          <button class="btn btn-xs btn-default" {{action 'editProduct' product}}>Edit</button>
+            <button class="btn btn-xs btn-danger" {{action 'deleteProduct' product}}>Del</button>
+            <button class="btn btn-xs btn-default" {{action 'editProduct' product}}>Edit</button>
           {{/if}}
         </td>
       </tr>
