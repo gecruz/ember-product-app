@@ -4,7 +4,7 @@ import Ember from 'ember';
 export default Ember.Route.extend({
 
   model() {
-    return this.store.findAll('category');
+    return this.store.findAll('category', { include: 'products' });
   },
 
   setupController(controller, model) {
@@ -28,6 +28,11 @@ export default Ember.Route.extend({
 
     editCategory(category) {
       category.set('isEditing', true);
+    },
+
+    cancelEditCategory(category) {
+      category.set('isEditing', false);
+      category.rollbackAttributes();
     },
 
     updateCategory(category) {
