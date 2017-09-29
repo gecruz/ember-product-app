@@ -39,7 +39,10 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Deploying
 
-Specify what it takes to deploy your app.
+* `npm install -g surge`
+* `ember build --environment=development`
+* `mv dist/index.html dist/200.html`
+* `surge dist your-project-name.surge.sh`
 
 ## Further Reading / Useful Links
 
