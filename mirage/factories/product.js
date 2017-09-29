@@ -6,4 +6,9 @@ export default Factory.extend({
   sku: faker.random.alphaNumeric,
   unitPrice: faker.commerce.price,
 
+  afterCreate(product /*, server */) {
+    product.categoryId = faker.random.number({min: 1, max: 10});
+    product.save();
+  }
+
 });
